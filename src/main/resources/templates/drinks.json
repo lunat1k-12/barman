@@ -1,0 +1,28 @@
+{
+  "drinks" : [
+  {
+    "name" : "ром-колла",
+    "pumpOne" : 13500,
+    "pumpTwo" : 35000,
+    "pumpThree" : 0
+  },
+  {
+    "name" : "вино",
+    "pumpOne" : 0,
+    "pumpTwo" : 0,
+    "pumpThree" : 34000
+  },
+  {
+    "name" : "колла",
+    "pumpOne" : 0,
+    "pumpTwo" : 51000,
+    "pumpThree" : 0
+  },
+  {
+    "name" : "прогон",
+    "pumpOne" : 10000,
+    "pumpTwo" : 10000,
+    "pumpThree" : 10000
+  }
+  ]
+}
