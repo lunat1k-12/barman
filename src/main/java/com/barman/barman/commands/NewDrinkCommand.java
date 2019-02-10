@@ -1,6 +1,9 @@
 package com.barman.barman.commands;
 
+import com.barman.barman.util.BarmanUtils;
+import com.barman.barman.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.api.objects.Message;
 
 import com.barman.barman.dao.IDrinksDao;
@@ -12,7 +15,8 @@ public class NewDrinkCommand extends AbstractCommandProcessor
 
     public static final String NEW_DRINK_COMMAND = "drink:";
 
-    public static final String ADMIN_NAME = "Evgeniy/Chemeris";
+    @Value("${admin.name}")
+    private String adminName;
 
     @Autowired
     private IDrinksDao drinksDao;
@@ -24,8 +28,12 @@ public class NewDrinkCommand extends AbstractCommandProcessor
 
         if(cspace.getRequestMessage() != null && cspace.getRequestMessage().startsWith(NEW_DRINK_COMMAND))
         {
+            if(Constants.N.equals(cspace.getUserPrivilege().getAllowDrink())) {
+                cspace.setRequestMessage(Constants.ACCESS_DENIED);
+                return cspace;
+            }
 
-            String user = message.getFrom().getFirstName() + "/" + message.getFrom().getLastName();
+            String user = BarmanUtils.parseUserId(message);
             String response = resolveDrinkCommand(message.getText(),user);
             cspace.setResponseMessage(response);
             return cspace;
@@ -39,7 +47,7 @@ public class NewDrinkCommand extends AbstractCommandProcessor
         String[] attributes = text.substring(6,text.length()).split(",");
         String res = "у тебя нет прав";
 
-        if(!ADMIN_NAME.equals(user))
+        if(!adminName.equals(user))
         {
             return res;
         }

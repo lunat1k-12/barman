@@ -68,7 +68,7 @@ public class TelegramBot extends TelegramLongPollingBot
             sendMessageRequest.setChatId(message.getChatId().toString());
             sendMessageRequest.setText(result.getResponseMessage());
 
-            sendMessage(sendMessageRequest);
+            sendApiMethod(sendMessageRequest);
 
             if(result.getPhotos() != null && result.getPhotos().size() > 0)
             {

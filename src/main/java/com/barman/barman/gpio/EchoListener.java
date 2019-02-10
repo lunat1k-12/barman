@@ -21,8 +21,11 @@ public class EchoListener implements GpioPinListenerDigital
 
     @Value("${distance.average}")
     private long average;
+
+    @Value("${distance.max}")
+    private long distanceMax;
     
-    private List<Long> values = new ArrayList<Long>();
+    private List<Long> values = new ArrayList<>();
 
     @Override
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event)
@@ -47,10 +50,11 @@ public class EchoListener implements GpioPinListenerDigital
     
     private boolean isClose()
     {
-    	long averageDistance = values.parallelStream().mapToLong(l -> new Long(l)).sum() / average;
+    	long averageDistance = values.stream().mapToLong(l -> l).sum() / average;
     	values.clear();
-    	
-    	return averageDistance < 4000000;
+
+        LOG.info("Distance - " + averageDistance);
+    	return averageDistance < distanceMax;
     }
 
 }

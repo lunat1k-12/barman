@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.barman.barman.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.barman.barman.dao.IPhotosDao;
@@ -25,6 +26,11 @@ public class AllPhotosCommand extends AbstractCommandProcessor
 
         if(ALL_PHOTO.equalsIgnoreCase(cspace.getRequestMessage()))
         {
+            if(Constants.N.equals(cspace.getUserPrivilege().getAllowAllPhoto())) {
+                cspace.setRequestMessage(Constants.ACCESS_DENIED);
+                return cspace;
+            }
+
             cspace.setResponseMessage("выгружаю все фото");
             Iterable<DbPhoto> dbPhotos = photosDao.findAll();
 

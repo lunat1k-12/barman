@@ -3,6 +3,7 @@ package com.barman.barman.commands;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import com.barman.barman.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class PhotoCommand extends AbstractCommandProcessor
 
         if(PHOTO.equalsIgnoreCase(cspace.getRequestMessage()))
         {
+            if(Constants.N.equals(cspace.getUserPrivilege().getAllowPhoto())) {
+                cspace.setRequestMessage(Constants.ACCESS_DENIED);
+                return cspace;
+            }
+
         	LOG.info("Take a picture");
         	cspace.setResponseMessage("фотографирую");
         	InputStream is = cameraService.takePicture();

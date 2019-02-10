@@ -1,5 +1,6 @@
 package com.barman.barman.commands;
 
+import com.barman.barman.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class PumpDrinkCommand extends AbstractCommandProcessor
         }
         else if(cspace.isCupClose())
         {
+            if(Constants.N.equals(cspace.getUserPrivilege().getAllowDrink())) {
+                cspace.setRequestMessage(Constants.ACCESS_DENIED);
+                return cspace;
+            }
+
             String response = "готовлю " + cspace.getRequestMessage() + " для " + cspace.getMessage().getFrom().getFirstName();
             cspace.setResponseMessage(response);
             cameraService.takePicture();

@@ -17,6 +17,16 @@ public class CommandWorkspace {
 	
 	private boolean cupClose;
 
+	private DbUserPrivilege userPrivilege;
+
+	public DbUserPrivilege getUserPrivilege() {
+		return userPrivilege;
+	}
+
+	public void setUserPrivilege(DbUserPrivilege userPrivilege) {
+		this.userPrivilege = userPrivilege;
+	}
+
 	public boolean isCupClose()
     {
         return cupClose;

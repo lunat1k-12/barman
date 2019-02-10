@@ -2,6 +2,7 @@ package com.barman.barman.config;
 
 import java.util.EnumSet;
 
+import com.barman.barman.commands.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +11,6 @@ import org.springframework.core.io.Resource;
 
 import com.barman.barman.camera.CameraService;
 import com.barman.barman.camera.ICameraService;
-import com.barman.barman.commands.AllPhotosCommand;
-import com.barman.barman.commands.CheckCupCommand;
-import com.barman.barman.commands.DaysPhotosCommand;
-import com.barman.barman.commands.DeletePhotoCommand;
-import com.barman.barman.commands.ICommandProcessor;
-import com.barman.barman.commands.NewDrinkCommand;
-import com.barman.barman.commands.PhotoCommand;
-import com.barman.barman.commands.PumpDrinkCommand;
 import com.barman.barman.commands.message.IMessageProcessor;
 import com.barman.barman.commands.message.MessageProcessor;
 import com.barman.barman.gpio.DistanceService;
@@ -64,8 +57,11 @@ public class BarmanConfig
     @Primary
     public ICommandProcessor getCommand()
     {
-    	PhotoCommand command = new PhotoCommand();
-    	command.setNext(getAllPhotosCommand())
+        LoadUserPrivilegeCommand command = new LoadUserPrivilegeCommand();
+    	command.setNext(getPhotoCommand())
+               .setNext(getAllPhotosCommand())
+               .setNext(getAllowListCommand())
+               .setNext(getAllowUserPrivsCommand())
     	       .setNext(getDaysPhotosCommand())
     	       .setNext(getDeletePhotoCommand())
     	       .setNext(getNewDrinkCommand())
@@ -74,7 +70,22 @@ public class BarmanConfig
 
     	return command;
     }
-    
+
+    @Bean
+    public ICommandProcessor getPhotoCommand() {
+        return new PhotoCommand();
+    }
+
+    @Bean
+    public ICommandProcessor getAllowListCommand() {
+        return new AllowListCommand();
+    }
+
+    @Bean
+    public ICommandProcessor getAllowUserPrivsCommand() {
+        return new AllowUserPrivsCommand();
+    }
+
     @Bean
     public ICommandProcessor getDeletePhotoCommand()
     {
