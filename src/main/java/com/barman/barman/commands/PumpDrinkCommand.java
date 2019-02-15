@@ -33,7 +33,7 @@ public class PumpDrinkCommand extends AbstractCommandProcessor
 
         if(drink == null)
         {
-            cspace.setResponseMessage("могу предложить: \n" + getDrinksList().toString());
+            cspace.setResponseMessage("могу предложить: \n" + getDrinksList());
         }
         else if(cspace.isCupClose())
         {
@@ -85,7 +85,7 @@ public class PumpDrinkCommand extends AbstractCommandProcessor
 
         for(Drink drink : drinks)
         {
-            sb = sb.append(drink.getName()).append("\n");
+            sb = sb.append(drink.getId() + ": " + drink.getName()).append("\n");
         }
 
         return sb.toString();

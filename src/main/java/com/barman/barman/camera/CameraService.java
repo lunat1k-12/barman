@@ -56,7 +56,7 @@ public class CameraService implements ICameraService {
 	@Override
 	public void deleteAllPhotos() 
 	{
-		photosDao.deleteAllPhotos();
+		photosDao.deleteAll();
 	}
 
 	@Override

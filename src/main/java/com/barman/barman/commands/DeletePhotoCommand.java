@@ -24,6 +24,7 @@ public class DeletePhotoCommand extends AbstractCommandProcessor {
 			LOG.info("Delete photos");
 			cspace.setResponseMessage("фотогрфии удалены");
 			cameraService.deleteAllPhotos();
+			return cspace;
 		}
 
 		return this.processNextOrExit(cspace);

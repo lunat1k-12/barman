@@ -16,7 +16,7 @@ public class DistanceCheckSchedule {
 	@Autowired
 	private IDistanceStateHolder state;
 	
-	@Scheduled(fixedRate = 100)
+	//@Scheduled(fixedRate = 100)
 	public void checkDistance() throws InterruptedException
 	{
 		state.setTime(System.nanoTime());

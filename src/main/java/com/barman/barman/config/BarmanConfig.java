@@ -166,7 +166,9 @@ public class BarmanConfig
     @Bean
     public IDistanceStateHolder getDistanceStateHolder()
     {
-        return new DistanceStateHolder();
+        DistanceStateHolder state = new DistanceStateHolder();
+        state.setClose(true);
+        return state;
     }
 
 	private Pin createPin(int pos, String name)
