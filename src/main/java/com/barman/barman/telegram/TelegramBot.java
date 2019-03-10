@@ -1,8 +1,7 @@
 package com.barman.barman.telegram;
 
-import java.io.InputStream;
-import java.util.List;
-
+import com.barman.barman.commands.message.IMessageProcessor;
+import com.barman.barman.domain.CommandWorkspace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,10 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import com.barman.barman.commands.message.IMessageProcessor;
-import com.barman.barman.domain.CommandWorkspace;
-import com.barman.barman.gpio.IDistanceService;
-import com.barman.barman.gpio.IDistanceStateHolder;
+import java.io.InputStream;
+import java.util.List;
+
+import static com.barman.barman.util.Constants.ADMIN_CHAT;
 
 public class TelegramBot extends TelegramLongPollingBot
 {
@@ -29,12 +28,6 @@ public class TelegramBot extends TelegramLongPollingBot
 
     @Autowired
     private IMessageProcessor messageProcessor;
-
-    @Autowired
-    private IDistanceService distanceService;
-    
-    @Autowired
-    private IDistanceStateHolder distanceHolder;
 
     @Override
     public String getBotUsername()
@@ -56,6 +49,14 @@ public class TelegramBot extends TelegramLongPollingBot
             }
         }
 
+    }
+
+    public void sendAdminMessage(String message) throws TelegramApiException {
+        SendMessage sendMessageRequest = new SendMessage();
+        sendMessageRequest.setChatId(Long.parseLong(ADMIN_CHAT));
+        sendMessageRequest.setText(message);
+
+        sendApiMethod(sendMessageRequest);
     }
 
     private void processRequest(Message message)

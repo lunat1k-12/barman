@@ -1,5 +1,17 @@
 package com.barman.barman.camera;
 
+import com.barman.barman.dao.IPhotosDao;
+import com.barman.barman.domain.DbPhoto;
+import com.barman.barman.domain.ImageHolder;
+import com.hopding.jrpicam.RPiCamera;
+import com.hopding.jrpicam.enums.Exposure;
+import com.hopding.jrpicam.exceptions.FailedToRunRaspistillException;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,19 +20,6 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.barman.barman.dao.IPhotosDao;
-import com.barman.barman.domain.DbPhoto;
-import com.hopding.jrpicam.RPiCamera;
-import com.hopding.jrpicam.enums.Exposure;
-import com.hopding.jrpicam.exceptions.FailedToRunRaspistillException;
 
 public class CameraService implements ICameraService {
 
@@ -68,7 +67,33 @@ public class CameraService implements ICameraService {
 				                         .collect(Collectors.toList());
 	}
 
-	private RPiCamera getCamera() throws FailedToRunRaspistillException
+    @Override
+    public ImageHolder getImageData() {
+
+        ImageHolder res = new ImageHolder();
+        res.setImageBytes(new byte[0]);
+        try
+        {
+            RPiCamera camera = getCamera();
+
+            BufferedImage img = camera.takeBufferedStill();
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(img,"jpeg",os);
+            res.setImage(img);
+            res.setImageBytes(os.toByteArray());
+
+            return res;
+
+        }
+        catch(Exception ex)
+        {
+            LOG.error("Photo Failed {}",ex);
+        }
+
+        return res;
+    }
+
+    private RPiCamera getCamera() throws FailedToRunRaspistillException
     {
 
         RPiCamera piCamera = new RPiCamera();
