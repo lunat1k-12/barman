@@ -24,9 +24,9 @@ public class AppSchedule {
 	public void checkDistance() throws InterruptedException
 	{
 		state.setTime(System.nanoTime());
-        distanceService.getTrigerPin().toggle();
+        distanceService.getTriggerPin().toggle();
         Thread.sleep(10);
-        distanceService.getTrigerPin().toggle();
+        distanceService.getTriggerPin().toggle();
 	}
 
 	@Scheduled(fixedRate = 180_000)

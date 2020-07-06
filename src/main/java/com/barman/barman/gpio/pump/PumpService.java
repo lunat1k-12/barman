@@ -5,9 +5,9 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 
 public class PumpService implements IPumpService {
 
-	private GpioPinDigitalOutput pumpOne;
-	private GpioPinDigitalOutput pumpTwo;
-	private GpioPinDigitalOutput pumpThree;
+	private final GpioPinDigitalOutput pumpOne;
+	private final GpioPinDigitalOutput pumpTwo;
+	private final GpioPinDigitalOutput pumpThree;
 	private GpioController controller;
 
 	public PumpService(GpioPinDigitalOutput pumpOne,

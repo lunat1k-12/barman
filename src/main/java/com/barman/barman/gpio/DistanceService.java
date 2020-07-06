@@ -5,22 +5,22 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 
 public class DistanceService implements IDistanceService
 {
-    private GpioPinDigitalOutput trigerPin;
+    private final GpioPinDigitalOutput triggerPin;
     
-    private GpioPinDigitalInput echoPin;
+    private final GpioPinDigitalInput echoPin;
 
     private Long time;
 
-    public DistanceService(GpioPinDigitalOutput triger, GpioPinDigitalInput echo)
+    public DistanceService(GpioPinDigitalOutput triggerPin, GpioPinDigitalInput echo)
     {
-        this.trigerPin = triger;
+        this.triggerPin = triggerPin;
         this.echoPin = echo;
     }
 
     @Override
-    public GpioPinDigitalOutput getTrigerPin()
+    public GpioPinDigitalOutput getTriggerPin()
     {
-        return trigerPin;
+        return triggerPin;
     }
 
     @Override

@@ -62,9 +62,9 @@ public class CameraService implements ICameraService {
 	public List<InputStream> getAllDayPhotos() 
 	{
 		List<DbPhoto> dayPhotos = photosDao.getDayPhotos();
-		
-		return dayPhotos.parallelStream().map(dbPhoto -> new ByteArrayInputStream(dbPhoto.getContent()))
-				                         .collect(Collectors.toList());
+
+        return dayPhotos.stream().map(dbPhoto -> new ByteArrayInputStream(dbPhoto.getContent()))
+                .collect(Collectors.toList());
 	}
 
     @Override

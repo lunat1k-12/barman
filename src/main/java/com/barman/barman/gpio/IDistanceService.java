@@ -10,7 +10,7 @@ public interface IDistanceService
 
     Long getTime();
 
-    GpioPinDigitalOutput getTrigerPin();
+    GpioPinDigitalOutput getTriggerPin();
     
     GpioPinDigitalInput getEchoPin();
 }
